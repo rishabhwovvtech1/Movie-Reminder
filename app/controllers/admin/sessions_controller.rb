@@ -17,10 +17,12 @@ class Admin::SessionsController < ApiController
     authorized_user = User.authenticate(params[:name],params[:login_password], "admin_user")
     if authorized_user
       session[:user_id] = authorized_user.id
-      redirect_to(action: 'dashboard', controller: :users)
+      redirect_to(action: 'index', controller: :users)
     else
       set_flash_notification :danger, :invalid
       render "login"
     end
   end
 end
+
+

@@ -2,11 +2,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :admin do
-    get '/' => 'users#dashboard'
+    get '/' => 'users#index'
 
     resources :users do
       collection do
-        get :dashboard
         get :follow
       end
     end
@@ -18,9 +17,8 @@ Rails.application.routes.draw do
         get :logout
       end
     end
-    resources :questions
-    resources :answers
-    resources :topics do
+
+    resources :movies do
       collection do
         get :follow
       end

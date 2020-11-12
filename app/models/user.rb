@@ -2,11 +2,9 @@ class User < ApplicationRecord
   include Permissible
 
   before_create :encrypt_password
-  before_update :encrypt_password
+  before_update :encrypt_password, if: :password_changed?
   after_save :clear_password
 
-  has_many :questions
-  has_many :answers
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt

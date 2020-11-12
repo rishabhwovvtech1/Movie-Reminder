@@ -2,30 +2,17 @@ class Admin::UsersController < ApiController
   before_action :authenticate_user
 
   def index
-    @questions = @current_user.questions
+    @following = UserFollow.where(user_id: @current_user.id).pluck(:movie_id)
+    @movies = Movie.where(id: @following)
   end
 
   def new
     @user = User.new
   end
 
-  def dashboard
-    @users = User.all
-  end
-
   def show
-    @user = User.find(params[:id])
-    @follows = false
-    id = @user.id
-    @same = false
-    if id == @current_user.id
-      @same = true
-    end
-    ids = UserFollow.where(user_id: @current_user.id).pluck(:followed_user_id)
-    if ids.include?(id)
-      @follows = true
-    end
-    @questions = @user.questions
+    @following = UserFollow.where(user_id: @current_user.id).pluck(:movie_id)
+    @movies = Movie.where(id: @following)
   end
 
   def create
@@ -37,16 +24,6 @@ class Admin::UsersController < ApiController
       set_instant_flash_notification :danger, :default, {:message => @user.errors.messages[:base][0]}
       render :new
     end
-  end
-
-  def follow
-    @follow = UserFollow.new(user_id: @current_user.id, followed_user_id: params[:follow_id])
-    if @follow.save
-      set_flash_notification :success, :create, entity: 'Question'
-    else
-      set_instant_flash_notification :danger, :default, {:message => @follow.errors.messages[:base][0]}
-    end
-    redirect_to admin_questions_path
   end
 
   def edit

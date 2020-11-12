@@ -1,0 +1,35 @@
+<div class="container-div page-body">
+    <div>
+      <div class="col-xs-12" align="center">
+        <u><h2> Movies to watch </h2></u>
+      </div>
+    <div>
+        
+        <% if @movies ==[] %>
+            <h4>No movies found</h4>
+        <% else %>
+                <% @movies.each_with_index  do |movie,i| %>
+                <div class="container movie">
+                <h4><div class="col-md-2">#<%= i+1 %></div>
+                <div class="col-md-2"><%= movie.name %></div>
+                <div class="col-md-2"><%= movie.channel %></div>
+                <div class="col-md-2"><%= movie.time %></div></h4>
+                <div class="col-md-2">
+                <% if @following.include? movie.id %>
+                    <div class="btn btn-green">
+                    Reminder will be sent
+                    </div>
+                <% else  %>
+                    <h3>
+                    <%= link_to follow_admin_movies_path(movie_id: movie.id), class: "btn btn-green" do %>
+                        Set reminder
+                    <% end %>
+                    </h3>
+                <% end %></div></div>
+            <% end %>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+  
