@@ -10,7 +10,7 @@ class Admin::MoviesController < ApiController
         @follow = UserFollow.new(user_id: @current_user.id, movie_id: params[:movie_id])
         if @follow.save
           ReminderMailer.movie_reminder(@current_user).deliver
-          set_flash_notification :success, :create, entity: 'Followed'
+          set_flash_notification :success, :create, entity: 'Reminder'
         else
           set_instant_flash_notification :danger, :default, {:message => @follow.errors.messages[:base][0]}
         end
