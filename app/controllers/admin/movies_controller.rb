@@ -1,7 +1,8 @@
 class Admin::MoviesController < ApiController
     before_action :authenticate_user
     def index
-        @movies = Movie.all
+        @q = Movie.ransack(params[:q])
+        @movies = @q.result.order(name: :asc)
         @following = UserFollow.where(user_id: @current_user.id).pluck(:movie_id)
     end
 

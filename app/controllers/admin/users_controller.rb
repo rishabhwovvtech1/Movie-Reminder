@@ -3,7 +3,8 @@ class Admin::UsersController < ApiController
 
   def index
     @following = UserFollow.where(user_id: @current_user.id).pluck(:movie_id)
-    @movies = Movie.where(id: @following)
+    @q = Movie.where(id: @following).ransack(params[:q])
+    @movies = @q.result.order(name: 'ASC')
   end
 
   def new

@@ -4,7 +4,19 @@
         <u><h2> Movies to watch </h2></u>
       </div>
     <div>
-        
+        <div class="col-xs-12" style="padding-bottom: 20px;">
+          <%= search_form_for(@q, url: admin_movies_path, id: 'search_form') do |f| %>
+          <div class="col-xs-2">
+            <%=f.text_field :name_cont, class: "form-control feedr-main-input", placeholder: "Name" %>
+          </div>
+          <div class="col-xs-2">
+            <%=f.text_field :channel_cont, class: "form-control feedr-main-input", placeholder: "Channel" %>
+          </div>
+          <div class="col-xs-2">
+            <%=f.submit "Search", class: "form-control btn btn-green" %> 
+          </div>
+          <% end%>
+        </div>
         <% if @movies ==[] %>
             <h4>No movies found</h4>
         <% else %>
